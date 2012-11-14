@@ -18,7 +18,7 @@ servlet container in the directory named "example".
 See the tutorial at http://lucene.apache.org/solr/tutorial.html
 
 
-$Id: CHANGES.txt 1408368 2012-11-12 17:36:32Z jdyer $
+$Id: CHANGES.txt 1408885 2012-11-13 18:48:03Z jdyer $
 
 ==================  5.0.0 ==================
 
@@ -58,6 +58,14 @@ New Features
 * SOLR-1972: Add extra statistics to RequestHandlers - 5 & 15-minute reqs/sec
   rolling averages; median, 75th, 95th, 99th, 99.9th percentile request times
   (Alan Woodward, Shawn Heisey, Adrien Grand)
+  
+* SOLR-4051: Add <propertyWriter /> element to DIH's data-config.xml file,  
+  allowing the user to specify the location, filename and Locale for
+  the "data-config.properties" file.  Alternatively, users can specify their
+  own property writer implementation for greater control. This new configuration 
+  element is optional, and defaults mimic prior behavior.  The one exception is 
+  that the "root" locale is default. Previously it was the machine's default locale.  
+  (James Dyer)
 
 Optimizations
 ----------------------
@@ -171,7 +179,20 @@ Bug Fixes
   connection on a non-read-only database leak connections.  Also expanded the
   SqlEntityProcessor test to sometimes use Derby as well as HSQLDB (Derby is
   one db affected by this bug).  (Fenlor Sebastia, James Dyer)
-  
+
+* SOLR-4064: When there is an unexpected exception while trying to run the new
+  leader process, the SolrCore will not correctly rejoin the election.
+  (Po Rui Via Mark Miller)
+
+* SOLR-3989: SolrZkClient constructor dropped exception cause when throwing
+  a new RuntimeException. (Colin Bartolome, yonik)
+
+* SOLR-4036: field aliases in fl should not cause properties of target field
+  to be used. (Martin Koch, yonik)
+
+* SOLR-4003: The SolrZKClient clean method should not try and clear zk paths
+  that start with /zookeeper, as this can fail and stop the removal of
+  further nodes. (Mark Miller)
 
 Other Changes
 ----------------------
